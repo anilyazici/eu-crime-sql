@@ -1,0 +1,46 @@
+ICCS,name,parent
+TOTAL,Total,ICCS
+ICCS01,Acts leading to death or intending to cause death,ICCS
+ICCS0101_0102,Intentional homicide and attempted intentional homicide,ICCS
+ICCS0101,Intentional homicide,ICCS
+ICCS0102,Attempted intentional homicide,ICCS
+ICCS02-04,"Acts causing harm or intending to cause harm to the person, injurious acts of a sexual nature and acts against property involving violence or threat against a person",ICCS
+ICCS02,Acts causing harm or intending to cause harm to the person,ICCS
+ICCS0201,Assaults and threats,ICCS
+ICCS02011,Assault,ICCS
+ICCS020111,Serious assault,ICCS
+ICCS0202,Acts against liberty,ICCS
+ICCS02022,Deprivation of liberty,ICCS
+ICCS020221,Kidnapping,ICCS
+ICCS0204,Trafficking in persons,ICCS
+ICCS02041,Trafficking in persons for sexual exploitation,ICCS
+ICCS02042,Trafficking in persons for forced labour or services,ICCS
+ICCS02043_02044,Trafficking in persons for organ removal and other purposes,ICCS
+ICCS03,Injurious acts of a sexual nature,ICCS
+ICCS0301,Sexual violence,ICCS
+ICCS03011,Rape,ICCS
+ICCS03012,Sexual assault,ICCS
+ICCS03019,Other acts of sexual violence,ICCS
+ICCS0302,Sexual exploitation,ICCS
+ICCS03022,Sexual exploitation of children,ICCS
+ICCS04,Acts against property involving violence or threat against a person,ICCS
+ICCS0401,Robbery,ICCS
+ICCS05,Acts against property only,ICCS
+ICCS0501,Burglary,ICCS
+ICCS05012,Burglary of private residential premises,ICCS
+ICCS0502,Theft,ICCS
+ICCS05021,Theft of a motorized vehicle or parts thereof,ICCS
+ICCS050211,Theft of a motorized land vehicle,ICCS
+ICCS06,Acts involving controlled drugs or other psychoactive substances,ICCS
+ICCS0601,Unlawful acts involving controlled drugs or precursors,ICCS
+ICCS07,"Acts involving fraud, deception or corruption",ICCS
+ICCS0701,Fraud,ICCS
+ICCS0703,Corruption,ICCS
+ICCS07031,Bribery,ICCS
+ICCS07041,Money laundering,ICCS
+ICCS08,"Acts against public order, authority and provisions of the State",ICCS
+ICCS09,Acts against public safety and state security,ICCS
+ICCS0903,Acts against computer systems,ICCS
+ICCS09051,Participation in an organized criminal group,ICCS
+ICCS10,Acts against the natural environment,ICCS
+ICCS11,Other criminal acts not elsewhere classified,ICCS
