@@ -1,0 +1,268 @@
+-- See the first 10 rows
+SELECT *
+FROM crimes
+LIMIT 10;
+
+-- How many rows are in the table?
+SELECT COUNT(*) AS total_rows
+FROM crimes;
+
+-- What countries are in the dataset?
+SELECT DISTINCT country
+FROM crimes
+ORDER BY country;
+
+-- All crime types available
+SELECT DISTINCT crime_type
+FROM crimes
+ORDER BY crime_type;
+
+-- Germany only
+SELECT *
+FROM crimes
+WHERE country = 'Germany'
+ORDER BY year;
+
+-- Intentional homicide across all countries in 2015
+SELECT country, count
+FROM crimes
+WHERE crime_type = 'Intentional Homicide'
+  AND year = 2015
+ORDER BY count DESC;
+
+-- Total crimes per country (all years, all crime types)
+SELECT country, 
+       SUM(count) AS total_crimes
+FROM crimes
+GROUP BY country
+ORDER BY total_crimes DESC;
+
+-- Total crimes per crime type
+SELECT crime_type,
+       SUM(count) AS total,
+       AVG(count) AS average,
+       MAX(count) AS max_value,
+       MIN(count) AS min_value
+FROM crimes
+GROUP BY crime_type
+ORDER BY total DESC;
+
+-- Total crimes per country per year
+SELECT country, year,
+       SUM(count) AS total
+FROM crimes
+GROUP BY country, year
+ORDER BY country, year;
+
+-- Which country had the most intentional homicides on average?
+SELECT country,
+       AVG(count) AS avg_homicides
+FROM crimes
+WHERE crime_type = 'Intentional Homicide'
+GROUP BY country
+ORDER BY avg_homicides DESC
+LIMIT 10;
+
+-- HAVING: countries with more than 10,000 total thefts
+SELECT country,
+       SUM(count) AS total_thefts
+FROM crimes
+WHERE crime_type = 'Theft'
+GROUP BY country
+HAVING total_thefts > 10000
+ORDER BY total_thefts DESC;
+
+-- Create a reference table for EU membership
+CREATE TABLE IF NOT EXISTS countries (
+    country_code TEXT,
+    country      TEXT,
+    region       TEXT,
+    eu_member    TEXT,
+    population   INTEGER
+);
+
+INSERT OR IGNORE INTO countries VALUES
+('DE','Germany','Western Europe','Yes',84000000),
+('FR','France','Western Europe','Yes',68000000),
+('IT','Italy','Southern Europe','Yes',59000000),
+('ES','Spain','Southern Europe','Yes',47000000),
+('PL','Poland','Eastern Europe','Yes',38000000),
+('RO','Romania','Eastern Europe','Yes',19000000),
+('NL','Netherlands','Western Europe','Yes',17000000),
+('BE','Belgium','Western Europe','Yes',11000000),
+('CZ','Czechia','Eastern Europe','Yes',11000000),
+('SE','Sweden','Northern Europe','Yes',10000000),
+('PT','Portugal','Southern Europe','Yes',10000000),
+('HU','Hungary','Eastern Europe','Yes',10000000),
+('AT','Austria','Western Europe','Yes',9000000),
+('BG','Bulgaria','Eastern Europe','Yes',7000000),
+('DK','Denmark','Northern Europe','Yes',6000000),
+('FI','Finland','Northern Europe','Yes',5000000),
+('SK','Slovakia','Eastern Europe','Yes',5000000),
+('IE','Ireland','Northern Europe','Yes',5000000),
+('HR','Croatia','Southern Europe','Yes',4000000),
+('LT','Lithuania','Eastern Europe','Yes',3000000),
+('SI','Slovenia','Eastern Europe','Yes',2000000),
+('LV','Latvia','Eastern Europe','Yes',2000000),
+('EE','Estonia','Eastern Europe','Yes',1000000),
+('CY','Cyprus','Southern Europe','Yes',1000000),
+('LU','Luxembourg','Western Europe','Yes',700000),
+('MT','Malta','Southern Europe','Yes',500000),
+('NO','Norway','Northern Europe','No',5000000),
+('CH','Switzerland','Western Europe','No',8000000),
+('IS','Iceland','Northern Europe','No',400000),
+('TR','Türkiye','Southern Europe','No',85000000),
+('AL','Albania','Southern Europe','No',3000000),
+('RS','Serbia','Eastern Europe','No',7000000),
+('ME','Montenegro','Southern Europe','No',600000),
+('BA','Bosnia','Southern Europe','No',3000000),
+('XK','Kosovo','Southern Europe','No',2000000);
+
+-- INNER JOIN: combine crimes with country info
+SELECT c.country, co.region, co.eu_member,
+       c.crime_type, c.year, c.count
+FROM crimes c
+INNER JOIN countries co ON c.country_code = co.country_code
+ORDER BY c.country, c.year
+LIMIT 20;
+
+-- Total crimes by region
+SELECT co.region,
+       SUM(c.count) AS total_crimes
+FROM crimes c
+INNER JOIN countries co ON c.country_code = co.country_code
+GROUP BY co.region
+ORDER BY total_crimes DESC;
+
+-- EU members vs non-EU members: average homicide rate
+SELECT co.eu_member,
+       AVG(c.count) AS avg_homicides
+FROM crimes c
+INNER JOIN countries co ON c.country_code = co.country_code
+WHERE c.crime_type = 'Intentional Homicide'
+GROUP BY co.eu_member;
+
+-- Theft per 1 million population by country
+SELECT c.country,
+       co.population,
+       SUM(c.count) AS total_thefts,
+       ROUND(SUM(c.count) * 1000000.0 / co.population, 1) AS thefts_per_million
+FROM crimes c
+INNER JOIN countries co ON c.country_code = co.country_code
+WHERE c.crime_type = 'Theft'
+GROUP BY c.country
+ORDER BY thefts_per_million DESC;
+
+-- Classify countries by homicide level
+SELECT country,
+       AVG(count) AS avg_homicides,
+       CASE 
+           WHEN AVG(count) < 50  THEN 'Low'
+           WHEN AVG(count) < 200 THEN 'Medium'
+           ELSE 'High'
+       END AS risk_level
+FROM crimes
+WHERE crime_type = 'Intentional Homicide'
+GROUP BY country
+ORDER BY avg_homicides DESC;
+
+-- Classify years as pre/post COVID
+SELECT country, year, count,
+       CASE
+           WHEN year < 2020 THEN 'Pre-COVID'
+           ELSE 'COVID & After'
+       END AS period
+FROM crimes
+WHERE crime_type = 'Theft'
+ORDER BY country, year;
+
+-- Countries above the European average for robbery
+SELECT country, AVG(count) AS avg_robbery
+FROM crimes
+WHERE crime_type = 'Robbery'
+GROUP BY country
+HAVING AVG(count) > (
+    SELECT AVG(count)
+    FROM crimes
+    WHERE crime_type = 'Robbery'
+)
+ORDER BY avg_robbery DESC;
+
+-- Year with highest total theft in Germany
+SELECT year, count
+FROM crimes
+WHERE country = 'Germany'
+  AND crime_type = 'Theft'
+  AND count = (
+      SELECT MAX(count)
+      FROM crimes
+      WHERE country = 'Germany'
+        AND crime_type = 'Theft'
+  );
+  
+  -- Each country's most common crime type
+SELECT country, crime_type, total
+FROM (
+    SELECT country, crime_type,
+           SUM(count) AS total,
+           RANK() OVER (PARTITION BY country ORDER BY SUM(count) DESC) AS rnk
+    FROM crimes
+    GROUP BY country, crime_type
+)
+WHERE rnk = 1
+ORDER BY total DESC;
+
+-- COVID impact: theft before vs after 2020
+SELECT co.region,
+       ROUND(AVG(CASE WHEN c.year < 2020 THEN c.count END), 0) AS avg_pre_covid,
+       ROUND(AVG(CASE WHEN c.year >= 2020 THEN c.count END), 0) AS avg_post_covid
+FROM crimes c
+INNER JOIN countries co ON c.country_code = co.country_code
+WHERE c.crime_type = 'Theft'
+GROUP BY co.region
+ORDER BY avg_pre_covid DESC;
+
+-- Top 5 safest countries (lowest total crime per million population)
+SELECT c.country,
+       co.population,
+       ROUND(SUM(c.count) * 1000000.0 / co.population, 0) AS crimes_per_million
+FROM crimes c
+INNER JOIN countries co ON c.country_code = co.country_code
+GROUP BY c.country
+ORDER BY crimes_per_million ASC
+LIMIT 5;
+
+-- Project summary: key findings
+SELECT 'Total records' AS metric, COUNT(*) AS value FROM crimes
+UNION ALL
+SELECT 'Countries', COUNT(DISTINCT country) FROM crimes
+UNION ALL
+SELECT 'Crime types', COUNT(DISTINCT crime_type) FROM crimes
+UNION ALL
+SELECT 'Year range start', MIN(year) FROM crimes
+UNION ALL
+SELECT 'Year range end', MAX(year) FROM crimes;
+
+-- Most dangerous country by homicide (average)
+SELECT country, ROUND(AVG(count),1) AS avg_homicides
+FROM crimes
+WHERE crime_type = 'Intentional Homicide'
+GROUP BY country
+ORDER BY avg_homicides DESC
+LIMIT 1;
+
+-- Safest country by homicide (average, min 5 years data)
+SELECT country, ROUND(AVG(count),1) AS avg_homicides
+FROM crimes
+WHERE crime_type = 'Intentional Homicide'
+GROUP BY country
+HAVING COUNT(*) >= 5
+ORDER BY avg_homicides ASC
+LIMIT 1;
+
+-- COVID impact on theft (EU average)
+SELECT 
+    ROUND(AVG(CASE WHEN year < 2020 THEN count END),0) AS avg_pre_covid,
+    ROUND(AVG(CASE WHEN year >= 2020 THEN count END),0) AS avg_post_covid
+FROM crimes
+WHERE crime_type = 'Theft';
