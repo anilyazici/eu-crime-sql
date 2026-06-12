@@ -1,11 +1,11 @@
-# 🔍 European Crime Statistics Analysis (2008–2021)
+# European Crime Statistics Analysis (2008–2021)
 
 A SQL-based data analysis project exploring crime trends across 36 European 
 countries using official Eurostat data.
 
 ---
 
-## 📌 Project Overview
+## Project Overview
 
 This project analyzes police-recorded crime statistics across Europe from 2008 
 to 2021. Using SQL queries, it explores patterns in homicide, theft, robbery, 
@@ -13,7 +13,7 @@ rape, and burglary — and examines the impact of COVID-19 on crime rates.
 
 ---
 
-## 📊 Dataset
+## Dataset
 
 - **Source:** Eurostat — European Commission
 - **Coverage:** 36 countries | 2008–2021 | 2,452 records
@@ -23,7 +23,7 @@ rape, and burglary — and examines the impact of COVID-19 on crime rates.
 
 ---
 
-## 🔍 Key Findings
+## Key Findings
 
 1. **Türkiye** has the highest average intentional homicide count in Europe (2,024 per year)
 2. **Liechtenstein** is the safest country with only 0.4 average homicides per year
@@ -33,7 +33,7 @@ rape, and burglary — and examines the impact of COVID-19 on crime rates.
 
 ---
 
-## 🛠️ SQL Concepts Used
+## SQL Concepts Used
 
 | Concept | Description |
 |---|---|
@@ -46,7 +46,7 @@ rape, and burglary — and examines the impact of COVID-19 on crime rates.
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 eu-crime-sql/
@@ -62,7 +62,7 @@ eu-crime-sql/
 
 ---
 
-## 🚀 How to Run
+## How to Run
 
 **Option 1 — DB Browser for SQLite**
 1. Download [DB Browser for SQLite](https://sqlitebrowser.org)
@@ -81,7 +81,7 @@ df = pd.read_sql("SELECT * FROM crimes", conn)
 
 ---
 
-## 🔎 Sample Queries
+## Sample Queries
 
 ```sql
 -- Countries above European average for robbery
@@ -109,11 +109,10 @@ ORDER BY avg_pre_covid DESC;
 
 ---
 
-## 👥 Authors
-
-**Pelin Kimiz**  
-MSc Data Science for Society and Business — Constructor University Bremen  
-[GitHub](https://github.com/pelinkimiz) | [LinkedIn](https://linkedin.com/in/pelinkimiz)
+## Authors
 
 **Anıl Yazıcı**  
-[GitHub](https://github.com/anilyazici) | [LinkedIn](https://linkedin.com/in/anilyazici)
+[GitHub](https://github.com/anilyazici) | [LinkedIn](https://linkedin.com/in/anıl-yazıcı-a7b0aa25b)
+
+**Pelin Kimiz**  
+[GitHub](https://github.com/pelinkimiz) | [LinkedIn](https://linkedin.com/in/pelin-kimiz-b58a30140)
