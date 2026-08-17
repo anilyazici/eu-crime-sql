@@ -260,9 +260,33 @@ HAVING COUNT(*) >= 5
 ORDER BY avg_homicides ASC
 LIMIT 1;
 
+-- Countries with the lowest average annual homicide rate
+SELECT 
+    c.country,
+    ROUND(AVG(c.count) * 100000.0 / co.population, 2) AS avg_homicides_per_100k
+FROM crimes c
+INNER JOIN countries co 
+    ON c.country_code = co.country_code
+WHERE c.crime_type = 'Intentional Homicide'
+GROUP BY c.country, co.population
+HAVING COUNT(*) >= 5
+ORDER BY avg_homicides_per_100k ASC
+LIMIT 10;
+
 -- COVID impact on theft (EU average)
 SELECT 
     ROUND(AVG(CASE WHEN year < 2020 THEN count END),0) AS avg_pre_covid,
     ROUND(AVG(CASE WHEN year >= 2020 THEN count END),0) AS avg_post_covid
 FROM crimes
 WHERE crime_type = 'Theft';
+
+-- Average annual homicide rate per 100,000 inhabitants
+SELECT 
+    c.country,
+    ROUND(AVG(c.count) * 100000.0 / co.population, 2) AS avg_homicides_per_100k
+FROM crimes c
+INNER JOIN countries co 
+    ON c.country_code = co.country_code
+WHERE c.crime_type = 'Intentional Homicide'
+GROUP BY c.country, co.population
+ORDER BY avg_homicides_per_100k DESC;
