@@ -1,27 +1,58 @@
-# European Crime Statistics Analysis (2008–2021)
+# European Crime Data Analysis | SQL & Python
 
-A SQL-based data analysis project exploring crime trends across 36 European 
-countries using official Eurostat data.
+## 📊 Project Overview
+
+This project analyzes crime statistics across European countries using **SQL and Python**.
+
+The analysis focuses on identifying crime trends, comparing countries, and exploring changes over time using publicly available European crime data.
+
+The project demonstrates a complete data analysis workflow:
+
+**Data Preparation → SQL Analysis → Exploratory Data Analysis → Visualization → Insights**
+
+### Key Objectives
+
+- Analyze crime trends across European countries
+- Compare crime levels between countries
+- Identify changes in crime patterns over time
+- Explore the impact of the COVID-19 period
+- Practice advanced SQL analysis techniques
+- Extract meaningful insights from real-world data
+
+### Dataset
+
+The dataset contains crime statistics for **36 European countries covering 2008–2021**.
+
+The data is based on publicly available European statistical data.
+
+### Tools & Technologies
+
+- **Python**
+- **Pandas**
+- **SQL**
+- **SQLite**
+- **Jupyter Notebook**
+- **Data Visualization**
 
 ---
 
-## Project Overview
+## 🎯 Business Questions
 
-This project analyzes police-recorded crime statistics across Europe from 2008 
-to 2021. Using SQL queries, it explores patterns in homicide, theft, robbery, 
-rape, and burglary — and examines the impact of COVID-19 on crime rates.
+This analysis aims to answer the following questions:
 
----
+1. Which European countries recorded the highest levels of reported crime?
 
-## Dataset
+2. How have crime levels changed across Europe between 2008 and 2021?
 
-- **Source:** Eurostat — European Commission
-- **Coverage:** 36 countries | 2008–2021 | 2,452 records
-- **Crime types:** Intentional Homicide, Rape, Robbery, Burglary, 
-  Residential Burglary, Theft, Motor Vehicle Theft
-- **Tables:** `crimes`, `countries` (EU membership, region, population)
+3. Which crime categories are the most common across European countries?
 
----
+4. Which countries experienced the largest changes in crime levels over time?
+
+5. How did reported crime change during the COVID-19 period?
+
+6. How do crime patterns differ between EU and non-EU countries?
+
+7. Which countries show the highest crime rates after accounting for population differences?
 
 ## Key Findings
 
